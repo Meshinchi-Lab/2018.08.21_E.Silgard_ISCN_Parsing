@@ -1,0 +1,80 @@
+---
+title: 'Parsing ISCN Results'
+author: "Jenny Smith"
+date: ", 2018"
+output: html_document
+---
+
+Ananlysis by Emily Silgard. 
+
+```{r setup}
+library(knitr)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=50),tidy=TRUE, fig.align='center', fig.height=5, fig.width=8)
+knitr::opts_knit$set(root.dir = '/fh/fast/meshinchi_s/workingDir/TARGET/AML_TARGET/Clinical/analysis/2018.08.21_E.Silgard_ISCN_Parsing/')
+options(stringsAsFactors = FALSE)
+```
+
+
+```{r message = FALSE, warning=FALSE}
+library(stringr)
+library(magrittr)
+library(ggplot2)
+library(dplyr)
+library(tibble)
+library(tidyr)
+getwd()
+```
+
+
+
+#Read in the Clinical Data
+
+```{r}
+CDE.1031 <- read.csv("~/reference_mapping-files/TARGET_AML_1031_CDE_cleaned_7.06.2018.csv")
+
+head(CDE.1031[,1:5])
+```
+
+
+
+#Read ISCN Strings
+
+```{r}
+input <- read.delim("jenny_smith_input.tsv", sep="\t")
+head(input)
+dim(input) #2154    2
+```
+
+
+#Read in the Parsed Results
+
+```{r}
+output <- read.delim("reformatted_cyto_output_header.tsv", sep="\t")
+
+head(output[,1:5])
+dim(output)  #2154  223
+```
+
+
+```{r}
+listDatasets(mart) %>%
+  filter(grepl("hsapiens", dataset))
+```
+
+```{r}
+output$PlusChr1
+```
+
+
+```{r}
+sapply(output[,-1], table)
+```
+
+
+
+#Session Information 
+
+```{r}
+sessionInfo()
+```
+
